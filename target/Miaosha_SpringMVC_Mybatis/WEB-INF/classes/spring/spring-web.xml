@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--本xml用以配置springMVC-->
+
+    <!--1、开启SpringMVC注解模式-->
+    <!--该项配置作用：
+        （1）自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter
+        （2）提供一系列功能：数据绑定；数字和日期的format如@NumberFormat，@DateTimeFormat；以及xml、json默认读写的支持
+        -->
+    <mvc:annotation-driven/>
+
+    <!--2、由于我们在web.xml中使用/来匹配所有url，而实际上使用/时匹配静态资源会出现问题
+        所以我们需要一项配置来支持以上-->
+    <!--该项注解作用：
+        （1）加入对静态资源的处理：js,png,jpg
+        （2）允许使用"/"做整体映射-->
+    <mvc:default-servlet-handler/>
+
+    <!--3、配置支持jsp的ViewResolver-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--4、开启controller的自动扫描-->
+    <context:component-scan base-package="com.yy.controller"/>
+</beans>
